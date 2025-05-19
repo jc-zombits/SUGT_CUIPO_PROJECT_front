@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Spin, Alert, Typography, Tabs } from 'antd';
+import '../styles/Dependencias.css'; // Asegúrate de tener este archivo CSS
 
 const { Text, Title } = Typography;
 const { TabPane } = Tabs;
@@ -52,32 +53,49 @@ useEffect(() => {
 
   // Columnas para datos de plantilla
   const columnsPlantilla = [
-    {
+  {
       title: 'Nombre del Proyecto',
       dataIndex: 'nombre_proyecto',
       key: 'nombre_proyecto',
       render: (text) => <Text strong>{text}</Text>,
       sorter: (a, b) => a.nombre_proyecto.localeCompare(b.nombre_proyecto),
+      width: '30%',
+      ellipsis: true,
+      className: 'project-name-column'
+    },
+    {
+      title: 'CPC',
+      dataIndex: 'tiene_cpc',
+      key: 'tiene_cpc',
+      render: (text) => <Text strong>{text}</Text>,
+      sorter: (a, b) => a.tiene_cpc.localeCompare(b.tiene_cpc),
+      width: '20%',
+      align: 'center'
     },
     {
       title: 'ID Proyecto',
       dataIndex: 'proyecto',
       key: 'proyecto',
       render: (text) => <Text code>{text}</Text>,
+      width: '12%'
     },
     {
       title: 'Sector CUIPO',
       dataIndex: 'sector_cuipo',
       key: 'sector_cuipo',
       sorter: (a, b) => a.sector_cuipo.localeCompare(b.sector_cuipo),
+      width: '13%',
+      ellipsis: true
     },
     {
       title: 'Secretaría',
       dataIndex: 'secretaria',
       key: 'secretaria',
       sorter: (a, b) => a.secretaria.localeCompare(b.secretaria),
-    }
-  ];
+      width: '25%',
+      ellipsis: true
+    } 
+];
 
   // Columnas para datos financieros
   const columnsFinancieros = [
@@ -155,9 +173,15 @@ useEffect(() => {
               columns={columnsPlantilla}
               dataSource={datos.plantilla}
               rowKey={(record) => record.proyecto || record.nombre_proyecto}
-              pagination={{ pageSize: 5, showSizeChanger: true }}
+              pagination={{
+                pageSize: 10,
+                showSizeChanger: true,
+                pageSizeOptions: ['10', '20', '50']
+              }}
               bordered
-              style={{ marginBottom: '24px' }}
+              scroll={{ x: 'max-content' }}
+              style={{ width: '100%' }}
+              size="middle"
               locale={{
                 emptyText: 'No se encontraron proyectos con los filtros seleccionados'
               }}

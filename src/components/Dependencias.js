@@ -252,16 +252,22 @@ const Dependencias = () => {
 
           {/* Componente para mostrar los proyectos filtrados */}
           <Card 
-            style={{ marginTop: '24px', borderRadius: '8px' }}
+            style={{ 
+              marginTop: '24px', 
+              borderRadius: '8px',
+              overflow: 'hidden' // Para bordes redondeados consistentes
+            }}
             title={`Proyectos ${form.getFieldValue('secretaria') ? `de ${form.getFieldValue('secretaria')}` : ''}`}
           >
-            <ProyectosList 
-              filtros={{
-                secretaria: form.getFieldValue('secretaria'),
-                sector: form.getFieldValue('sector_cuipo'),
-                nombreProyecto: form.getFieldValue('nombre_proyecto')
-              }}
-            />
+            <div style={{ padding: '16px' }}>
+              <ProyectosList 
+                filtros={{
+                  secretaria: form.getFieldValue('secretaria'),
+                  sector: form.getFieldValue('sector_cuipo'),
+                  nombreProyecto: form.getFieldValue('nombre_proyecto')
+                }}
+              />
+            </div>
           </Card>
         </div>
       </Content>

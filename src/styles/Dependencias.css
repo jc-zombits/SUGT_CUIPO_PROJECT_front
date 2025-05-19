@@ -45,3 +45,31 @@
   color: #333;
   font-weight: 500;
 }
+
+/* Para la tabla */
+.ant-table {
+  font-size: 14px;
+}
+
+/* Para la columna de nombre de proyecto */
+.project-name-column {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Para las celdas de la tabla */
+.ant-table-cell {
+  padding: 12px 16px !important;
+}
+
+/* Para el header de la tabla */
+.ant-table-thead > tr > th {
+  background-color: #f0f2f5 !important;
+  font-weight: 600 !important;
+}
+
+/* Para el scroll horizontal si es necesario */
+.ant-table-container {
+  overflow-x: auto;
+}
