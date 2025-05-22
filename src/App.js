@@ -5,6 +5,7 @@ import Proyectos from './components/Proyectos';
 import Dependencias from './components/Dependencias';
 import Terceros from './components/Terceros';
 import FormPage from './components/FormPage';
+import Ejecucion from './components/Ejecucion';
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
                 <Route path="/cuipo/dependencias" element={<Dependencias />} />
                 <Route path="/cuipo/terceros" element={<Terceros />} />
                 <Route path="/cuipo/form" element={<FormPage />} />
+                <Route path="/cuipo/ejecucion-presu" element={<Ejecucion />} />
             </Routes>
         </Router>
     );
