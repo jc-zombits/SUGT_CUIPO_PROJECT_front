@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input, Button, Select, Form, notification, Card, Row, Col, Space, Typography, Table } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import axios from 'axios';
@@ -13,6 +13,8 @@ const FormPage = () => {
     const [cpcOptions, setCpcOptions] = useState([]);
     const [selectedCpc, setSelectedCpc] = useState(null);
     const [cpcData, setCpcData] = useState(null);
+    const [productosMGA, setProductosMGA] = useState([]);
+    const [loadingProductos, setLoadingProductos] = useState(false);
     const navigate = useNavigate();
 
     // Columnas para la tabla de datos CPC
@@ -30,7 +32,31 @@ const FormPage = () => {
         },
     ];
 
-    // Función para buscar opciones de CPC
+    // Cargar productos MGA al montar el componente
+    useEffect(() => {
+        const fetchProductosMGA = async () => {
+            setLoadingProductos(true);
+            try {
+                const response = await axios.get('http://localhost:5001/api/v1/cuipo/productos-mga');
+                if (response.data.success) {
+                    setProductosMGA(response.data.data);
+                }
+            } catch (error) {
+                console.error('Error al cargar productos MGA:', error);
+                notification.error({
+                    message: 'Error',
+                    description: 'No se pudieron cargar los productos MGA',
+                    placement: 'topRight'
+                });
+            } finally {
+                setLoadingProductos(false);
+            }
+        };
+        
+        fetchProductosMGA();
+    }, []);
+
+    // Función para buscar opciones de CPC (existente - se mantiene igual)
     const fetchCpcOptions = async (query) => {
         if (!query || query.length < 2) {
             setCpcOptions([]);
@@ -60,7 +86,7 @@ const FormPage = () => {
         }
     };
 
-    // FUNCIÓN CORREGIDA - Manejar selección de CPC
+    // Manejar selección de CPC (existente - se mantiene igual)
     const handleCpcSelect = (value) => {
         const codigoNumerico = value.split(' - ')[0];
         
@@ -71,13 +97,32 @@ const FormPage = () => {
         
         setSelectedCpc(value);
         
-        // Si necesitas cargar detalles adicionales
         if (codigoNumerico) {
             loadCpcDetails(codigoNumerico);
         }
     };
 
-    // Función para cargar detalles (si es necesaria)
+    // Manejar selección de producto MGA
+    const handleProductoMGASelect = (value) => {
+        if (value) {
+            // Encontrar el producto seleccionado
+            const productoSeleccionado = productosMGA.find(p => p.valorCompleto === value);
+            
+            if (productoSeleccionado) {
+                // Extraer los primeros 7 dígitos para el campo CUIPO
+                const codigoCUIPO = productoSeleccionado.codigo;
+                form.setFieldsValue({
+                    producto_cuipo: codigoCUIPO
+                });
+            }
+        } else {
+            form.setFieldsValue({
+                producto_cuipo: ''
+            });
+        }
+    };
+
+    // Función para cargar detalles (existente - se mantiene igual)
     const loadCpcDetails = async (codigo) => {
         setLoading(true);
         try {
@@ -125,16 +170,16 @@ const FormPage = () => {
                         bordered={false}
                         headStyle={{ borderBottom: 0 }}
                     >
-                        {/* FORMULARIO CORREGIDO */}
                         <Form 
                             form={form} 
                             layout="vertical"
                             initialValues={{
                                 estado_validacion: 'FAVOR DILIGENCIAR CPC',
-                                cpc_cuipo: 'N/A'
+                                cpc_cuipo: 'N/A',
+                                producto_cuipo: ''
                             }}
                         >
-                            {/* Select de búsqueda (se mantiene igual) */}
+                            {/* Select de búsqueda CPC (existente) */}
                             <Form.Item
                                 label={<Text strong>Código y Nombre del CPC</Text>}
                                 name="codigo_cpc"
@@ -156,7 +201,34 @@ const FormPage = () => {
                                 </Select>
                             </Form.Item>
 
-                            {/* Campo Estado de Validación - CORREGIDO */}
+                            {/* Nuevos campos para productos MGA */}
+                            <Form.Item
+                                label={<Text strong>Código y nombre del producto MGA</Text>}
+                                name="producto_mga"
+                            >
+                                <Select
+                                    placeholder="Seleccione un producto MGA"
+                                    onChange={handleProductoMGASelect}
+                                    loading={loadingProductos}
+                                    size="large"
+                                    allowClear
+                                >
+                                    {productosMGA.map((producto, index) => (
+                                        <Select.Option key={index} value={producto.valorCompleto}>
+                                            {producto.valorCompleto}
+                                        </Select.Option>
+                                    ))}
+                                </Select>
+                            </Form.Item>
+
+                            <Form.Item
+                                label={<Text strong>Producto CUIPO</Text>}
+                                name="producto_cuipo"
+                            >
+                                <Input size="large" disabled />
+                            </Form.Item>
+
+                            {/* Campo Estado de Validación (existente) */}
                             <Form.Item 
                                 label={<Text strong>Estado de Validación</Text>}
                                 name="estado_validacion"
@@ -167,7 +239,7 @@ const FormPage = () => {
                                 </Select>
                             </Form.Item>
 
-                            {/* Campo CPC CUIPO - CORREGIDO */}
+                            {/* Campo CPC CUIPO (existente) */}
                             <Form.Item
                                 label={<Text strong>CPC CUIPO</Text>}
                                 name="cpc_cuipo"
@@ -190,7 +262,7 @@ const FormPage = () => {
                             <Form.Item>
                                 <Space direction="vertical" style={{ width: '100%', paddingTop: '18px' }}>
                                     <Button 
-                                    style={{ backgroundColor: '#0044D0', color: "#fff", hover: { textColor: '#0000DF' } }}
+                                        style={{ backgroundColor: '#0044D0', color: "#fff", hover: { textColor: '#0000DF' } }}
                                         type="default" 
                                         onClick={handleGoBack}
                                         size="large"
