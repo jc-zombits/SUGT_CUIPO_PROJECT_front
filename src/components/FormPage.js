@@ -162,7 +162,7 @@ const FormPage = () => {
                                     onClick={handleGoBack}
                                     style={{ marginRight: 8 }}
                                 />
-                                <Title level={3} style={{ textAlign: 'center', marginBottom: 0 }}>
+                                <Title level={3} style={{ textAlign: 'center', marginBottom: 0, color: '#050C9C', fontWeight: 'bold' }}>
                                     Gestión Plantilla Distrito 2025
                                 </Title>
                             </Space>
