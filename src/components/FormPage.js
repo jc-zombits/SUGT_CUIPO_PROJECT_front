@@ -3,6 +3,7 @@ import { Input, Button, Select, Form, notification, Card, Row, Col, Space, Typog
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Navbar from './Navbar';
 
 const { Title, Text } = Typography;
 
@@ -150,133 +151,136 @@ const FormPage = () => {
     : [];
 
     return (
-        <div style={{ padding: '24px' }}>
-            <Row justify="center">
-                <Col xs={24} sm={22} md={20} lg={18} xl={16}>
-                    <Card 
-                        title={
-                            <Space>
-                                <Button 
-                                    type="text" 
-                                    icon={<ArrowLeftOutlined />} 
-                                    onClick={handleGoBack}
-                                    style={{ marginRight: 8 }}
-                                />
-                                <Title level={3} style={{ textAlign: 'center', marginBottom: 0, color: '#050C9C', fontWeight: 'bold' }}>
-                                    Gestión Plantilla Distrito 2025
-                                </Title>
-                            </Space>
-                        }
-                        bordered={false}
-                        headStyle={{ borderBottom: 0 }}
-                    >
-                        <Form 
-                            form={form} 
-                            layout="vertical"
-                            initialValues={{
-                                estado_validacion: 'FAVOR DILIGENCIAR CPC',
-                                cpc_cuipo: 'N/A',
-                                producto_cuipo: ''
-                            }}
-                        >
-                            {/* Select de búsqueda CPC (existente) */}
-                            <Form.Item
-                                label={<Text strong>Código y Nombre del CPC</Text>}
-                                name="codigo_cpc"
-                            >
-                                <Select
-                                    showSearch
-                                    placeholder="Busque por código o nombre del CPC"
-                                    onSearch={fetchCpcOptions}
-                                    onChange={handleCpcSelect}
-                                    filterOption={false}
-                                    loading={searchLoading}
-                                    size="large"
-                                >
-                                    {cpcOptions.map((item, index) => (
-                                        <Select.Option key={index} value={item}>
-                                            {item}
-                                        </Select.Option>
-                                    ))}
-                                </Select>
-                            </Form.Item>
-
-                            {/* Nuevos campos para productos MGA */}
-                            <Form.Item
-                                label={<Text strong>Código y nombre del producto MGA</Text>}
-                                name="producto_mga"
-                            >
-                                <Select
-                                    placeholder="Seleccione un producto MGA"
-                                    onChange={handleProductoMGASelect}
-                                    loading={loadingProductos}
-                                    size="large"
-                                    allowClear
-                                >
-                                    {productosMGA.map((producto, index) => (
-                                        <Select.Option key={index} value={producto.valorCompleto}>
-                                            {producto.valorCompleto}
-                                        </Select.Option>
-                                    ))}
-                                </Select>
-                            </Form.Item>
-
-                            <Form.Item
-                                label={<Text strong>Producto CUIPO</Text>}
-                                name="producto_cuipo"
-                            >
-                                <Input size="large" disabled />
-                            </Form.Item>
-
-                            {/* Campo Estado de Validación (existente) */}
-                            <Form.Item 
-                                label={<Text strong>Estado de Validación</Text>}
-                                name="estado_validacion"
-                            >
-                                <Select disabled size="large">
-                                    <Select.Option value="FAVOR DILIGENCIAR CPC">FAVOR DILIGENCIAR CPC</Select.Option>
-                                    <Select.Option value="CPC OK">CPC OK</Select.Option>
-                                </Select>
-                            </Form.Item>
-
-                            {/* Campo CPC CUIPO (existente) */}
-                            <Form.Item
-                                label={<Text strong>CPC CUIPO</Text>}
-                                name="cpc_cuipo"
-                            >
-                                <Input size="large" disabled />
-                            </Form.Item>
-
-                            {cpcData && (
-                                <Form.Item label={<Text strong>Datos del CPC</Text>}>
-                                    <Table 
-                                        columns={columns}
-                                        dataSource={tableData}
-                                        size="small"
-                                        bordered
-                                        pagination={false}
-                                    />
-                                </Form.Item>
-                            )}
-
-                            <Form.Item>
-                                <Space direction="vertical" style={{ width: '100%', paddingTop: '18px' }}>
+        <>
+            <Navbar />
+            <div style={{ padding: '24px' }}>
+                <Row justify="center">
+                    <Col xs={24} sm={22} md={20} lg={18} xl={16}>
+                        <Card 
+                            title={
+                                <Space>
                                     <Button 
-                                        style={{ backgroundColor: '#0044D0', color: "#fff", hover: { textColor: '#0000DF' } }}
-                                        type="default" 
+                                        type="text" 
+                                        icon={<ArrowLeftOutlined />} 
                                         onClick={handleGoBack}
-                                        size="large"
-                                        block
-                                    >
-                                        Volver al Inicio
-                                    </Button>
+                                        style={{ marginRight: 8 }}
+                                    />
+                                    <Title level={3} style={{ textAlign: 'center', marginBottom: 0, color: '#050C9C', fontWeight: 'bold' }}>
+                                        Gestión Plantilla Distrito 2025
+                                    </Title>
                                 </Space>
-                            </Form.Item>
-                        </Form>
-                    </Card>
-                </Col>
-            </Row>
-        </div>
+                            }
+                            bordered={false}
+                            headStyle={{ borderBottom: 0 }}
+                        >
+                            <Form 
+                                form={form} 
+                                layout="vertical"
+                                initialValues={{
+                                    estado_validacion: 'FAVOR DILIGENCIAR CPC',
+                                    cpc_cuipo: 'N/A',
+                                    producto_cuipo: ''
+                                }}
+                            >
+                                {/* Select de búsqueda CPC (existente) */}
+                                <Form.Item
+                                    label={<Text strong>Código y Nombre del CPC</Text>}
+                                    name="codigo_cpc"
+                                >
+                                    <Select
+                                        showSearch
+                                        placeholder="Busque por código o nombre del CPC"
+                                        onSearch={fetchCpcOptions}
+                                        onChange={handleCpcSelect}
+                                        filterOption={false}
+                                        loading={searchLoading}
+                                        size="large"
+                                    >
+                                        {cpcOptions.map((item, index) => (
+                                            <Select.Option key={index} value={item}>
+                                                {item}
+                                            </Select.Option>
+                                        ))}
+                                    </Select>
+                                </Form.Item>
+
+                                {/* Nuevos campos para productos MGA */}
+                                <Form.Item
+                                    label={<Text strong>Código y nombre del producto MGA</Text>}
+                                    name="producto_mga"
+                                >
+                                    <Select
+                                        placeholder="Seleccione un producto MGA"
+                                        onChange={handleProductoMGASelect}
+                                        loading={loadingProductos}
+                                        size="large"
+                                        allowClear
+                                    >
+                                        {productosMGA.map((producto, index) => (
+                                            <Select.Option key={index} value={producto.valorCompleto}>
+                                                {producto.valorCompleto}
+                                            </Select.Option>
+                                        ))}
+                                    </Select>
+                                </Form.Item>
+
+                                <Form.Item
+                                    label={<Text strong>Producto CUIPO</Text>}
+                                    name="producto_cuipo"
+                                >
+                                    <Input size="large" disabled />
+                                </Form.Item>
+
+                                {/* Campo Estado de Validación (existente) */}
+                                <Form.Item 
+                                    label={<Text strong>Estado de Validación</Text>}
+                                    name="estado_validacion"
+                                >
+                                    <Select disabled size="large">
+                                        <Select.Option value="FAVOR DILIGENCIAR CPC">FAVOR DILIGENCIAR CPC</Select.Option>
+                                        <Select.Option value="CPC OK">CPC OK</Select.Option>
+                                    </Select>
+                                </Form.Item>
+
+                                {/* Campo CPC CUIPO (existente) */}
+                                <Form.Item
+                                    label={<Text strong>CPC CUIPO</Text>}
+                                    name="cpc_cuipo"
+                                >
+                                    <Input size="large" disabled />
+                                </Form.Item>
+
+                                {cpcData && (
+                                    <Form.Item label={<Text strong>Datos del CPC</Text>}>
+                                        <Table 
+                                            columns={columns}
+                                            dataSource={tableData}
+                                            size="small"
+                                            bordered
+                                            pagination={false}
+                                        />
+                                    </Form.Item>
+                                )}
+
+                                <Form.Item>
+                                    <Space direction="vertical" style={{ width: '100%', paddingTop: '18px' }}>
+                                        <Button 
+                                            style={{ backgroundColor: '#0044D0', color: "#fff", hover: { textColor: '#0000DF' } }}
+                                            type="default" 
+                                            onClick={handleGoBack}
+                                            size="large"
+                                            block
+                                        >
+                                            Volver al Inicio
+                                        </Button>
+                                    </Space>
+                                </Form.Item>
+                            </Form>
+                        </Card>
+                    </Col>
+                </Row>
+            </div>
+        </>
     );
 };
 

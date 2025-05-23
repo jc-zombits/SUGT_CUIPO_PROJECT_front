@@ -3,6 +3,7 @@ import { Table, Card, Typography, Input, Space, Button, notification } from 'ant
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Navbar from './Navbar';
 
 const { Title, Text } = Typography;
 const { Search } = Input;
@@ -95,63 +96,66 @@ const Proyectos = () => {
   };
 
   return (
-    <div style={{ padding: '24px' }}>
-      <Card
-        title={
-          <Space>
-            <Button 
-              type="text" 
-              icon={<ArrowLeftOutlined />} 
-              onClick={handleGoBack}
-              style={{ marginRight: 8 }}
-            />
-            <Space direction="vertical" style={{ width: '100%' }}>
-              <Title level={3}>Listado de Proyectos</Title>
-              <Text type="secondary">Gestión y visualización de todos los proyectos disponibles</Text>
+    <>
+      <Navbar />
+      <div style={{ padding: '24px' }}>
+        <Card
+          title={
+            <Space>
+              <Button 
+                type="text" 
+                icon={<ArrowLeftOutlined />} 
+                onClick={handleGoBack}
+                style={{ marginRight: 8 }}
+              />
+              <Space direction="vertical" style={{ width: '100%' }}>
+                <Title level={3}>Listado de Proyectos</Title>
+                <Text type="secondary">Gestión y visualización de todos los proyectos disponibles</Text>
+              </Space>
             </Space>
+          }
+          bordered={false}
+          extra={
+            <Button 
+              type="primary" 
+              icon={<ArrowLeftOutlined />}
+              onClick={handleGoBack}
+            >
+              Volver al Inicio
+            </Button>
+          }
+        >
+          <Space direction="vertical" style={{ width: '100%', marginBottom: 16 }}>
+            <Search
+              placeholder="Buscar proyectos..."
+              allowClear
+              enterButton="Buscar"
+              size="large"
+              onSearch={handleSearch}
+              onChange={(e) => handleSearch(e.target.value)}
+              value={searchText}
+              style={{ maxWidth: 500 }}
+            />
+            <Text strong>{filteredData.length} proyectos encontrados</Text>
           </Space>
-        }
-        bordered={false}
-        extra={
-          <Button 
-            type="primary" 
-            icon={<ArrowLeftOutlined />}
-            onClick={handleGoBack}
-          >
-            Volver al Inicio
-          </Button>
-        }
-      >
-        <Space direction="vertical" style={{ width: '100%', marginBottom: 16 }}>
-          <Search
-            placeholder="Buscar proyectos..."
-            allowClear
-            enterButton="Buscar"
-            size="large"
-            onSearch={handleSearch}
-            onChange={(e) => handleSearch(e.target.value)}
-            value={searchText}
-            style={{ maxWidth: 500 }}
-          />
-          <Text strong>{filteredData.length} proyectos encontrados</Text>
-        </Space>
 
-        <Table
-          columns={columns}
-          dataSource={filteredData}
-          rowKey="id"
-          loading={loading}
-          pagination={{
-            pageSize: 10,
-            showSizeChanger: true,
-            pageSizeOptions: ['10', '20', '50', '100'],
-            showTotal: (total) => `Total ${total} proyectos`,
-          }}
-          scroll={{ x: 'max-content' }}
-          bordered
-        />
-      </Card>
-    </div>
+          <Table
+            columns={columns}
+            dataSource={filteredData}
+            rowKey="id"
+            loading={loading}
+            pagination={{
+              pageSize: 10,
+              showSizeChanger: true,
+              pageSizeOptions: ['10', '20', '50', '100'],
+              showTotal: (total) => `Total ${total} proyectos`,
+            }}
+            scroll={{ x: 'max-content' }}
+            bordered
+          />
+        </Card>
+      </div>
+    </>
   );
 };
 

@@ -3,6 +3,7 @@ import { Table, Card, Typography, Button, Space, Spin, notification } from 'antd
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Navbar from './Navbar';
 
 const { Title, Text } = Typography;
 
@@ -129,48 +130,51 @@ const Ejecucion = () => {
     };
 
     return (
-        <div style={{ padding: '24px' }}>
-            <Card
-                title={
-                    <Space>
+        <>
+            <Navbar />
+            <div style={{ padding: '24px' }}>
+                <Card
+                    title={
+                        <Space>
+                            <Button 
+                                type="text" 
+                                icon={<ArrowLeftOutlined />} 
+                                onClick={handleGoBack}
+                                style={{ marginRight: 8 }}
+                            />
+                            <Title level={3}>Comparación de Ejecución</Title>
+                        </Space>
+                    }
+                    bordered={false}
+                    extra={
                         <Button 
-                            type="text" 
-                            icon={<ArrowLeftOutlined />} 
+                            type="primary" 
+                            icon={<ArrowLeftOutlined />}
                             onClick={handleGoBack}
-                            style={{ marginRight: 8 }}
+                        >
+                            Volver al Inicio
+                        </Button>
+                    }
+                >
+                    <Spin spinning={loading}>
+                        <Table
+                            columns={columns}
+                            dataSource={data}
+                            rowKey="id_ejecucion"
+                            scroll={{ x: 'max-content' }}
+                            pagination={{
+                                ...pagination,
+                                showSizeChanger: true,
+                                pageSizeOptions: ['10', '20', '50', '100'],
+                                showTotal: (total) => `Total ${total} registros`,
+                            }}
+                            onChange={handleTableChange}
+                            bordered
                         />
-                        <Title level={3}>Comparación de Ejecución</Title>
-                    </Space>
-                }
-                bordered={false}
-                extra={
-                    <Button 
-                        type="primary" 
-                        icon={<ArrowLeftOutlined />}
-                        onClick={handleGoBack}
-                    >
-                        Volver al Inicio
-                    </Button>
-                }
-            >
-                <Spin spinning={loading}>
-                    <Table
-                        columns={columns}
-                        dataSource={data}
-                        rowKey="id_ejecucion"
-                        scroll={{ x: 'max-content' }}
-                        pagination={{
-                            ...pagination,
-                            showSizeChanger: true,
-                            pageSizeOptions: ['10', '20', '50', '100'],
-                            showTotal: (total) => `Total ${total} registros`,
-                        }}
-                        onChange={handleTableChange}
-                        bordered
-                    />
-                </Spin>
-            </Card>
-        </div>
+                    </Spin>
+                </Card>
+            </div>
+        </>
     );
 };
 
