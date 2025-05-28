@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col, Card, Typography, List, Spin, Alert } from 'antd';
-import Navbar from './Navbar';
 
 const { Title, Paragraph } = Typography;
 
@@ -67,7 +66,6 @@ const Home = () => {
 
     return (
         <>
-            <Navbar />
             <div style={{ padding: '24px', backgroundColor: '#f0f2f5', minHeight: '100vh' }}>
                 <Title level={2} style={{ color: '#1890ff' }}>Bienvenido a Cuipo Project</Title>
                 <Paragraph>Resumen del detalle de los datos</Paragraph>
