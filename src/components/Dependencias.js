@@ -4,6 +4,7 @@ import { Form, Select, Spin, Card, Row, Col, Layout, Menu, Typography } from 'an
 import { HomeOutlined, DownloadOutlined } from '@ant-design/icons';
 import ProyectosList from './ProyectosList';
 import '../styles/Dependencias.css';
+import Navbar from './Navbar';
 
 const { Option } = Select;
 const { Header, Content } = Layout;
@@ -107,6 +108,7 @@ const Dependencias = () => {
 
   return (
     <Layout className="layout-container">
+      <Navbar />
       <Header style={{ 
         display: 'flex',
         alignItems: 'center',

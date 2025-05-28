@@ -5,6 +5,7 @@ import { Input, Button, Select, Form, notification, Card, Row, Col, Space, Typog
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Navbar from './Navbar';
 
 const { Title, Text } = Typography;
 
@@ -296,7 +297,7 @@ const FormPage = () => {
         navigate('/cuipo');
     };
 
-    return (
+     return (
         <div style={{ padding: '24px' }}>
             <Row justify="center">
                 <Col xs={24} sm={22} md={20} lg={18} xl={16}>

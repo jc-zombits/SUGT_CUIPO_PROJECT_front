@@ -13,6 +13,8 @@ const Home = () => {
     const [catalogoProductos, setCatalogoProductos] = useState([]);
     const [loadingCatalogoProductos, setLoadingCatalogoProductos] = useState(true);
     const [error, setError] = useState(null);
+    const [cpc, setCpc] = useState([]);
+    const [loadingCpc, setLoadingCpc] = useState(true);
 
     // Función genérica para fetch
     const fetchData = async (url, setData, setLoading) => {
@@ -61,6 +63,14 @@ const Home = () => {
             'http://localhost:5001/api/v1/cuipo/catalogo-productos',
             setCatalogoProductos,
             setLoadingCatalogoProductos
+        );
+    }, []);
+
+    useEffect(() => {
+        fetchData(
+            'http://localhost:5001/api/v1/cuipo/cpc-data',
+            setCpc,
+            setLoadingCpc
         );
     }, []);
 
@@ -242,6 +252,51 @@ const Home = () => {
                                         </List.Item>
                                     )}
                                     locale={{ emptyText: 'No hay productos disponibles' }}
+                                />
+                            )}
+                        </Card>
+                    </Col>
+                </Row>
+
+                <Row gutter={16} style={{ marginTop: 16 }}>
+                    <Col span={12}>
+                        <Card 
+                            title="C P C" 
+                            styles={{
+                                body: { 
+                                    padding: 8,
+                                    margin: 4,
+                                    height: 300,
+                                    overflowY: 'scroll'
+                                },
+                                header: {
+                                    borderBottom: '1px solid #f0f0f0'
+                                }
+                            }}
+                        >
+                            {loadingCpc ? (
+                                <Spin />
+                            ) : (
+                                <List
+                                    dataSource={cpc}
+                                    renderItem={(item) => (
+                                        <List.Item key={item.id || item._id || item.codigo}>
+                                            <List.Item.Meta
+                                                title={
+                                                    <span style={{ color: '#1890ff' }}>
+                                                        Cod Indicador del producto CPC: {item.codigo_clase_o_subclase || 'N/A'}
+                                                    </span>
+                                                }
+                                                description={
+                                                    <>
+                                                        <div><strong>Identificador de CPC:</strong> {item.cpc_codigo || 'N/A'}</div>
+                                                        <div><strong>Clase o Subclase:</strong> {item.clase_o_subclase || 'N/A'}</div>
+                                                    </>
+                                                }
+                                            />
+                                        </List.Item>
+                                    )}
+                                    locale={{ emptyText: 'No hay CPCs disponibles' }}
                                 />
                             )}
                         </Card>

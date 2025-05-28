@@ -20,6 +20,9 @@ const Navbar = () => {
             <Menu.Item key="cuipo">
                 <Link to="/cuipo/form">CUIPO</Link>
             </Menu.Item>
+            <Menu.Item key="ejecucion">
+                <Link to="/cuipo/ejecucion-presu">Ejecución</Link>
+            </Menu.Item>
         </Menu>
     );
 };
